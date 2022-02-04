@@ -2,17 +2,21 @@ import "./App.css";
 import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
 import Home from "./Pages/Home";
 import CreatePost from "./Pages/CreatePost";
+import Post from "./Pages/Post";
 
 function App() {
   
   return <div className="App">
     <Router>
-    <Link to="/"> Home </Link>
+      <div className="navbar">
+        <Link to="/"> Home </Link>
+        <Link to="/createpost"> Create A Post </Link>
+      </div>
       <Switch>
         <Route path = "/" exact component = {Home} />
         <Route path = "/createpost" exact component = {CreatePost} />
+        <Route path = "/post/:id" exact component = {Post} />
       </Switch>
-    <Link to="/createpost"> Create A Post </Link>
     </Router>
   </div>;
 }
