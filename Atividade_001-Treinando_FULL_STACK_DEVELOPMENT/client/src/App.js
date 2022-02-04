@@ -15,7 +15,7 @@ function App() {
     return <div className = "post"> 
       <div className = 'title'> {value.title} </div>
       <div className = 'body'> {value.postText} </div>
-      <div className = 'footer'> {value.username} </div>
+      <div className = 'username'> {value.username} </div>
     </div>;
 
   })}
