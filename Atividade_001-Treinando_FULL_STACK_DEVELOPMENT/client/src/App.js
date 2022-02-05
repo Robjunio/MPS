@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
 import Home from "./Pages/Home";
 import CreatePost from "./Pages/CreatePost";
 import Post from "./Pages/Post";
+import Login from"./Pages/Login";
+import Registration from"./Pages/Registration";
 
 function App() {
   
@@ -11,11 +13,15 @@ function App() {
       <div className="navbar">
         <Link to="/"> Home </Link>
         <Link to="/createpost"> Create A Post </Link>
+        <Link to="/login"> Login </Link>
+        <Link to="/registration"> registration </Link>
       </div>
       <Switch>
         <Route path = "/" exact component = {Home} />
         <Route path = "/createpost" exact component = {CreatePost} />
         <Route path = "/post/:id" exact component = {Post} />
+        <Route path = "/login" exact component = {Login} />
+        <Route path = "/Registration" exact component = {Registration} />
       </Switch>
     </Router>
   </div>;
