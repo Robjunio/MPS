@@ -39,7 +39,11 @@ function App() {
 
   const logout = () => {
     localStorage.removeItem("accessToken");
-    setAuthState({...authState, status: false });
+    setAuthState({
+      username: "", 
+      id: 0, 
+      status: false,
+    });
   };
 
   return (
