@@ -1,49 +1,47 @@
 import "./App.css";
-import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Home from "./Pages/Home";
 import CreatePost from "./Pages/CreatePost";
 import Post from "./Pages/Post";
-import Login from"./Pages/Login";
-import Registration from"./Pages/Registration";
-import {AuthContext} from "./helpers/AuthContext";
-import {useState, useEffect} from "react";
-import axios from 'axios';
+import Registration from "./Pages/Registration";
+import Login from "./Pages/Login";
+import PageNotFound from "./Pages/PageNotFound";
+import Profile from './Pages/Profile';
+
+import { AuthContext } from "./helpers/AuthContext";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
   const [authState, setAuthState] = useState({
-    username: "", 
-    id: 0, 
+    username: "",
+    id: 0,
     status: false,
   });
-  
+
   useEffect(() => {
-    axios.get('http://localhost:3001/auth/auth', {headers:{
-      accessToken: localStorage.getItem("accessToken"),
-    }}).then((response) => {
-      if (response.data.error){
-        setAuthState({
-          username: "", 
-          id: 0, 
-          status: false,
-        });
-      }
-      else{
-        setAuthState({
-          username: response.data.username, 
-          id: response.data.id, 
-          status: true,
-        });
-      }
-    });
+    axios
+      .get("http://localhost:3001/auth/auth", {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          setAuthState({ ...authState, status: false });
+        } else {
+          setAuthState({
+            username: response.data.username,
+            id: response.data.id,
+            status: true,
+          });
+        }
+      });
   }, []);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
-    setAuthState({
-      username: "", 
-      id: 0, 
-      status: false,
-    });
+    setAuthState({ username: "", id: 0, status: false });
   };
 
   return (
@@ -52,12 +50,15 @@ function App() {
         <Router>
           <div className="navbar">
             <div className="links">
-              <Link to="/"> Home Page</Link>
-              <Link to="/createpost"> Create A Post</Link>
-              {!authState.status && (
+              {!authState.status ? (
                 <>
                   <Link to="/login"> Login</Link>
                   <Link to="/registration"> Registration</Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/"> Home Page</Link>
+                  <Link to="/createpost"> Create A Post</Link>
                 </>
               )}
             </div>
@@ -72,6 +73,8 @@ function App() {
             <Route path="/post/:id" exact component={Post} />
             <Route path="/registration" exact component={Registration} />
             <Route path="/login" exact component={Login} />
+            <Route path="/profile/:id" exact component={Profile} />
+            <Route path="*" exact component={PageNotFound} />
           </Switch>
         </Router>
       </AuthContext.Provider>
